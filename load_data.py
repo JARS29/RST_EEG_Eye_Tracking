@@ -1,21 +1,19 @@
 from common.xdf import load_xdf
 import numpy as np
 
-def importing_data(filename, data):
+def importing_data(filename):
     raw=load_xdf(filename)
-    if data=='eye_data':
-        eye_data=raw[0][0]
-        return eye_data
-    elif data=='EEG':
-        EEG_data=raw[0][1]
-        return EEG_data
-    elif data=='RST':
-        RST_data=raw[0][2]
-        return RST_data
-    elif data=='key_board':
-        key_data=raw[0][3]
-        return key_data
+    for i in range(len(raw[0])):
+        if raw[0][i]['info']['name']==['Tobii']:
+            eye_data=raw[0][i]
+        elif raw[0][i]['info']['name']==['openbci_eeg']:
+            EEG_data=raw[0][i]
+        elif raw[0][i]['info']['name'] == ['Reading_Span_Test']:
+            RST_data=raw[0][i]
+        elif raw[0][i]['info']['name'] == ['Keyboard']:
+            key_data=raw[0][i]
 
+    return RST_data,EEG_data,eye_data,key_data
 
 def extracting_index(RST_data, data, type ):   # RST data for the ts of the sentences+recall, data for the indexes (either EEG or Eye-tracking), type= 'sentences' or 'recall'
     index_sent=[]
@@ -44,7 +42,7 @@ def extracting_index(RST_data, data, type ):   # RST data for the ts of the sent
 
 
 
-def extracting_data(data,beg,end):  # data (either EEG or Eye_data;
+def extracting_data(data,beg,end):  # data (either EEG or Eye_data)
     raw_data = {}
     temp = {}
     for i in range(len(end)):
