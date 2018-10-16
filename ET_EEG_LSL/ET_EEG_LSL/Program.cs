@@ -11,12 +11,9 @@ namespace ET_EEG_LSL
     {
         private static Host _host;
         private static GazePointDataStream _gazePointDataStream;
-        private static List<double> s1 = new List<double>();
-        public static double [] sample = new double[3];
-        public static double eye_x = 0;
-        public static double eye_y = 0;
-        public static double time_st = 0;
-
+        private List<double> s1 = new List<double>();
+        public  double [] sample = new double[3];
+     
 
         private static void InitializeHost()
         {
@@ -27,16 +24,19 @@ namespace ET_EEG_LSL
             _host.DisableConnection();
         }
 
-        private static void CreateAndVisualizeLightlyFilteredGazePointStream()
+        private  void CreateAndVisualizeLightlyFilteredGazePointStream()
         {
             _gazePointDataStream = _host.Streams.CreateGazePointDataStream();
             _gazePointDataStream.GazePoint((x, y, ts) => {
-                s1.Add(ts);
-                time_st = ts - s1[0];
-                eye_x = x;
-                eye_y = y;
-
-            });
+                if (s1.Count == 0)
+                {
+                    s1.Add(ts);
+                }
+                sample[0] = ts - s1[0];
+                sample[1] = x;
+                sample[2] = y;
+            }
+            );
 
         }
 
@@ -44,25 +44,22 @@ namespace ET_EEG_LSL
         {
 
             // create stream info and outlet
-            liblsl.StreamInfo info = new liblsl.StreamInfo("Tobii", "Gaze", 3, 60, liblsl.channel_format_t.cf_float32, "eye_tracker");
+            liblsl.StreamInfo info = new liblsl.StreamInfo("Tobii", "Gaze", 3, 60, liblsl.channel_format_t.cf_double64, "eye_tracker");
             liblsl.StreamOutlet outlet = new liblsl.StreamOutlet(info);
             InitializeHost();
             ConsoleKeyInfo keyinfo;
             //Console.WriteLine(sample.ToString());
-
+            Program p = new Program();
             do
             {
                 keyinfo = Console.ReadKey();
 
                 while (!Console.KeyAvailable)
                 {
-                    CreateAndVisualizeLightlyFilteredGazePointStream();
-                    Console.WriteLine(time_st.ToString() + "  " + eye_x.ToString() + "  " + eye_y.ToString());
-                    sample[0] = time_st;
-                    sample[1] = eye_x;
-                    sample[2] = eye_y;
-                
-                    outlet.push_sample(sample);
+                    p.CreateAndVisualizeLightlyFilteredGazePointStream();
+                    //Console.WriteLine(time_st + "  " + eye_x+ "  " + eye_y);
+                    //Console.WriteLine(p.sample[0].ToString() + "  " + p.sample[1].ToString() + "  " + p.sample[2].ToString());
+                    outlet.push_sample(p.sample);
                     System.Threading.Thread.Sleep(10);
                 }
 

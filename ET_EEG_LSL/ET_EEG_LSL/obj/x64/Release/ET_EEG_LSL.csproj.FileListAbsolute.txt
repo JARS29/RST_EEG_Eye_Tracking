@@ -9,7 +9,6 @@ D:\software\VS\ET_EEG_LSL\ET_EEG_LSL\bin\x64\Release\Tobii.Interaction.Model.dll
 D:\software\VS\ET_EEG_LSL\ET_EEG_LSL\bin\x64\Release\Tobii.Interaction.Net.dll
 D:\software\VS\ET_EEG_LSL\ET_EEG_LSL\bin\x64\Release\Tobii.Research.dll
 D:\software\VS\ET_EEG_LSL\ET_EEG_LSL\bin\x64\Release\Tobii.Research.xml
-D:\software\VS\ET_EEG_LSL\ET_EEG_LSL\obj\x64\Release\ET_EEG_LSL.csprojAssemblyReference.cache
 D:\software\VS\ET_EEG_LSL\ET_EEG_LSL\obj\x64\Release\ET_EEG_LSL.csproj.CoreCompileInputs.cache
 D:\software\VS\ET_EEG_LSL\ET_EEG_LSL\obj\x64\Release\ET_EEG_LSL.csproj.CopyComplete
 D:\software\VS\ET_EEG_LSL\ET_EEG_LSL\obj\x64\Release\ET_EEG_LSL.exe
